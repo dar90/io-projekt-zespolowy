@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface UserRepository extends Repository<User, Long> {
     
-    // @PreAuthorize("hasAnyAuthority('USER', 'STATION_OWNER', 'MODERATOR', 'ADMIN')")
     User findById(Long id);
 
     @PreAuthorize("hasAuthority('ADMIN')")

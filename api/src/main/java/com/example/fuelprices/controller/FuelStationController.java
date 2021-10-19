@@ -13,6 +13,7 @@ import com.example.fuelprices.service.FuelStationService;
 import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,6 +33,7 @@ public class FuelStationController {
         this.links = links;
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR', 'USER')")
     @PostMapping
     public ResponseEntity<?> addFuelStation(@RequestBody @Valid AddOrEditFuelStationDTO dto, Errors validationResult) {
 
@@ -53,6 +55,7 @@ public class FuelStationController {
 
     }
 
+    @PreAuthorize("hasAuthority('ADMIN', 'MODERATOR')")
     @PutMapping
     public ResponseEntity<?> editFuelStation(@RequestBody @Valid AddOrEditFuelStationDTO dto, Errors validationResult) {
         if(validationResult.hasErrors())

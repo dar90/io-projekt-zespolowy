@@ -9,6 +9,7 @@ import com.example.fuelprices.service.ReportService;
 import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class ReportController {
         this.links = links;
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR', 'USER')")
     @PostMapping("/{fuelPriceId}")
     public ResponseEntity<?> reportFuelPrice(@PathVariable("fuelPriceId") Long fuelPriceId) {
         
