@@ -23,12 +23,16 @@ public interface FuelPriceRepository extends Repository<FuelPrice, Long> {
     @RestResource(exported = false)
     FuelPrice save(FuelPrice fuelPrice);
 
+    @RestResource(path = "city", rel = "city")
     List<FuelPrice> findByFuelStationCityOrderByPrice(String city);
 
-    List<FuelPrice> findByFuelType(FuelType fuelType);
+    @RestResource(path = "fuelType", rel = "fuelType")
+    List<FuelPrice> findByFuelTypeOrderByPrice(FuelType type);
 
+    @RestResource(path = "cityAndType", rel = "cityAndType")
     List<FuelPrice> findByFuelStationCityAndFuelTypeOrderByPrice(String city, FuelType fuelType);
 
+    @RestResource(path = "brand", rel = "brand")
     List<FuelPrice> findByFuelStationBrand(FuelStationBrand brand);
 
 }
