@@ -6,5 +6,7 @@ public enum FuelStationBrand {
     SHELL,
     CIRCLE_K,
     LOTOS,
+    BLISKA,
+    MOYA,
     OTHER
 }
