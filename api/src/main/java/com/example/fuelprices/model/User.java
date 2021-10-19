@@ -77,6 +77,10 @@ public class User implements UserDetails {
     @Transient
     private boolean emailConfirmed;
 
+    public int fuelStationsQuantity() {
+        return fuelStations.size();
+    }
+
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
