@@ -50,7 +50,7 @@ public class AuthFilter extends OncePerRequestFilter {
 
             String firebaseId = decodedToken.getUid();
             User currentUser = userRepository.findByFirebaseId(firebaseId)
-                                            .or(() -> {
+                                            .orElseGet(() -> {
                                                 User firstTime = new User();
                                                 firstTime.setFirebaseId(firebaseId);
                                                 return userRepository.save(firstTime);
