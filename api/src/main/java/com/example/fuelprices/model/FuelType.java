@@ -4,5 +4,7 @@ public enum FuelType {
     PB_95,
     PB_98,
     LPG,
-    ON
+    ON,
+    ON_PLUS,
+    CNG
 }
