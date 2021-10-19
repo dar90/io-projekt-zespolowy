@@ -43,12 +43,6 @@ public class User implements UserDetails {
     @Transient
     private String name;
 
-    // @JsonIgnore
-    // private String password;
-
-    // @JsonIgnore
-    // @Email
-    // @Column(unique = true)
     @Transient
     private String email;
 
@@ -57,10 +51,6 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "author", cascade = {CascadeType.PERSIST})
     private List<FuelPrice> fuelPrices;
-
-    // @NotNull
-    // @Enumerated(EnumType.STRING)
-    // private UserAccountType accountType;
 
     @Transient
     private UserRole role;
