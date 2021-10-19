@@ -1,0 +1,14 @@
+spring:
+    jpa:
+        hibernate:
+            ddl-auto: none  
+    datasource:
+        url: jdbc:postgresql://localhost:5432/fuel_prices
+        username: postgres
+        password: fuel
+server:
+    servlet:
+        context-path: /api
+    error:
+        include-stacktrace: NEVER
+        include-message: NEVER
