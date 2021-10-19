@@ -1,6 +1,7 @@
 package com.example.fuelprices.model;
 
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -79,5 +80,15 @@ public class FuelStation {
     @MapKeyColumn(name = "service")
     @Column(name = "is_available")
     private Map<String, Boolean> services;
+
+    @NotBlank
+    private String city;
+
+    private String street;
+
+    @NotBlank
+    private String plotNumber;
+
+    private URL logoUrl;
 
 }

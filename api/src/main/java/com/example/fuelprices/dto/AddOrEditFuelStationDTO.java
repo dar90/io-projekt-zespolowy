@@ -6,8 +6,10 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 import com.example.fuelprices.model.FuelStationBrand;
+import java.net.URL;
 
 public record AddOrEditFuelStationDTO(
     Long id,
@@ -17,7 +19,12 @@ public record AddOrEditFuelStationDTO(
     BigDecimal longitude,
     @NotBlank String name,
     @NotNull FuelStationBrand brand,
-    Long ownerId
+    Long ownerId,
+    @NotBlank String city,
+    String street,
+    @NotBlank String plotNumber,
+    Map<String, Boolean> services,
+    URL logoUrl
 ) {
     
 }

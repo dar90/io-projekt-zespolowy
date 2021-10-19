@@ -39,6 +39,11 @@ public class FuelStationService {
         fuelStation.setLatitude(dto.latitude());
         fuelStation.setLongitude(dto.longitude());
         fuelStation.setName(dto.name());
+        fuelStation.setCity(dto.city());
+        fuelStation.setStreet(dto.street());
+        fuelStation.setPlotNumber(dto.plotNumber());
+        fuelStation.setServices(dto.services());
+        fuelStation.setLogoUrl(dto.logoUrl());
 
         return Optional.of(repository.save(fuelStation));
     } 
