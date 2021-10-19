@@ -77,7 +77,7 @@ public class User implements UserDetails {
     @Transient
     private boolean emailConfirmed;
 
-    public int fuelStationsQuantity() {
+    public int getFuelStationsQuantity() {
         return fuelStations.size();
     }
 
