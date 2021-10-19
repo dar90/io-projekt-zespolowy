@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping(path = "/comments")
 public class CommentController {
     
     private final CommentService service;
@@ -35,7 +35,7 @@ public class CommentController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR', 'USER')")
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<?> addComment(@Valid @RequestBody AddOrEditCommentDTO dto, Errors validationResult) {     
         
         if(validationResult.hasErrors()) 
@@ -58,7 +58,7 @@ public class CommentController {
 
 
     @PreAuthorize("hasAuthority('ADMIN', 'MODERATOR')")
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<?> editComment(@RequestBody @Valid AddOrEditCommentDTO dto, Errors validationResult) {
 
         if(validationResult.hasErrors())

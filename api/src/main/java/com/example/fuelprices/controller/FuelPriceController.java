@@ -35,7 +35,7 @@ public class FuelPriceController {
     } 
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR', 'USER')")
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<?> addFuelPrice(@RequestBody @Valid AddOrEditFuelPriceDTO dto, Errors validationResult) {
 
         if(validationResult.hasErrors()) 
@@ -57,7 +57,7 @@ public class FuelPriceController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN', 'MODERATOR')")
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<?> editFuelPrice(@RequestBody @Valid AddOrEditFuelPriceDTO dto, Errors validationResult) {
         if(validationResult.hasErrors())
             return Validation.validationFailResponse(validationResult);
