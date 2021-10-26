@@ -3,11 +3,8 @@ package com.example.fuelprices.model;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -71,15 +67,8 @@ public class FuelStation {
     private boolean verified = false;
 
     @ElementCollection
-    @CollectionTable(
-        name = "fuel_stations_services",
-        joinColumns = {
-            @JoinColumn(name = "fuel_station_id", referencedColumnName = "id")
-        }
-    )
-    @MapKeyColumn(name = "service")
-    @Column(name = "is_available")
-    private Map<String, Boolean> services;
+    @Enumerated(EnumType.STRING)
+    private List<FuelStationServices> services;
 
     @NotBlank
     private String city;
