@@ -13,3 +13,5 @@ api/src/main/resources/firebase_config.json
 .idea
 api/.classpath
 api/.settings
+api/.factorypath
+api/.project
