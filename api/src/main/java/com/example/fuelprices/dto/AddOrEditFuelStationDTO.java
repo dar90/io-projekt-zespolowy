@@ -8,7 +8,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import java.util.List;
+import java.util.Set;
 
 import com.example.fuelprices.model.FuelStationBrand;
 import com.example.fuelprices.model.FuelStationServices;
@@ -27,7 +27,7 @@ public record AddOrEditFuelStationDTO(
     @NotBlank String city,
     String street,
     @NotBlank String plotNumber,
-    List<FuelStationServices> services,
+    Set<FuelStationServices> services,
     URL logoUrl
 ) {
     

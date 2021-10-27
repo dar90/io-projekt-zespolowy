@@ -3,6 +3,7 @@ package com.example.fuelprices.model;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
@@ -68,7 +69,7 @@ public class FuelStation {
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    private List<FuelStationServices> services;
+    private Set<FuelStationServices> services;
 
     @NotBlank
     private String city;
