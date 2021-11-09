@@ -32,6 +32,7 @@ public enum FuelStationServices {
     CURRENCY_EUR,
     UTA,
     WOG,
+    DKV,
     PORT24,
     BZA,
     TRUCK_PARKING,
