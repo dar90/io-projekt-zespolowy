@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  palive-db:
+    image: 'postgres:14.1-alpine'
+    container_name: 'palive-db'
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=fuel_prices
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=fuel
+  palive-api:
+    image: 'palive-api:latest'
+    container_name: 'palive-api'
+    depends_on:
+      - palive-db
+    build: 
+      context: '.\api'
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://palive-db:5432/fuel_prices
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=fuel
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update

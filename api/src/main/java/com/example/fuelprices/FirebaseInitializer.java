@@ -1,6 +1,5 @@
 package com.example.fuelprices;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -10,7 +9,6 @@ import com.google.firebase.FirebaseOptions;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +21,11 @@ public class FirebaseInitializer implements ApplicationListener<ApplicationReady
     public void onApplicationEvent(ApplicationReadyEvent event) {
      
         try {
-			FileInputStream serviceAccount = new FileInputStream(
-				new ClassPathResource("firebase_config.json").getFile()
-			);
 			FirebaseOptions options = FirebaseOptions.builder()
-										.setCredentials(GoogleCredentials.fromStream(serviceAccount))
+										.setCredentials(
+											GoogleCredentials.fromStream(
+												getClass().getResourceAsStream("/firebase_config.json")
+												))
 										.build();
 			FirebaseApp.initializeApp(options);
             log.info("Firebase initialized!");
