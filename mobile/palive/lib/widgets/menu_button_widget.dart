@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_test/widgets/login_widget.dart';
 
 class MenuButton extends StatelessWidget {
   const MenuButton({Key? key}) : super(key: key);
@@ -9,7 +10,9 @@ class MenuButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         ElevatedButton(
-          onPressed: () => print('asdasdasd'),
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const LoginWidget())
+          ),
           child: const Icon(Icons.list),
           style: ElevatedButton.styleFrom(
               shape: const CircleBorder(),

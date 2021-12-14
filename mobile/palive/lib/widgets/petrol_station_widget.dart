@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_test/petrol_station.dart';
+import 'package:google_maps_test/models/fuel_station.dart';
 
 class PetrolStationWidget extends StatelessWidget {
 
-  final PetrolStation petrolStation;
+  final FuelStation petrolStation;
 
   const PetrolStationWidget ({Key? key, required this.petrolStation}) : super(key: key);
 

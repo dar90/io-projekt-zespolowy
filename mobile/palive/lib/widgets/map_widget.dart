@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_test/petrol_station.dart';
-import 'package:google_maps_test/petrol_station_widget.dart';
+import 'package:google_maps_test/models/fuel_station.dart';
+import 'package:google_maps_test/widgets/petrol_station_widget.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -15,7 +15,7 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
 
-  List<PetrolStation> petrolStations = [];
+  List<FuelStation> petrolStations = [];
 
   late GoogleMapController mapController;
 
@@ -33,11 +33,17 @@ class _MapWidgetState extends State<MapWidget> {
         Map body = jsonDecode(res.body);
         List stations = body['_embedded']['fuelStations'];
         petrolStations = stations.map((e) =>
-            PetrolStation(
+            FuelStation(
                 id: e['id'],
                 latitude: e['latitude'],
                 longitude: e['longitude'],
-                name: e['name']
+                name: e['name'],
+                verified: e['verified'],
+                logoUrl: e['logoUrl'],
+                brand: e['brand'],
+                city: e['city'],
+                plotNumber: e['plotNumber'],
+                street: e['street']
             )
         ).toList();
       });
