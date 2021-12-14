@@ -6,14 +6,8 @@ class LoginWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            children: [
-              // FormField(builder: null)
-            ],
-          )
-        ],
+      body: Center(
+        child: Text("tu ma być strona logowania"),
       ),
     );
   }
