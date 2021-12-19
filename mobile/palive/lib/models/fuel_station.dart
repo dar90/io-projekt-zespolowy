@@ -5,6 +5,7 @@ class FuelStation {
   final double longitude;
   final String brand;
   final bool verified;
+  final List<String> services;
   final String city;
   final String street;
   final String plotNumber;
@@ -17,6 +18,7 @@ class FuelStation {
           required this.name,
           required this.brand,
           required this.verified,
+          required this.services,
           required this.city,
           required this.street,
           required this.plotNumber,
