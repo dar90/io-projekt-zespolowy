@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_test/models/fuel_station.dart';
+import 'package:google_maps_test/providers/palive_api.dart';
 
 class PetrolStationWidget extends StatelessWidget {
 
