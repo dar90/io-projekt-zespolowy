@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:html';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,6 +23,8 @@ class PaliveAPI {
       _currentUser = event;
     });
   }
+
+  // fuel stations
 
   Future<List<FuelStation>> loadFuelStationsByArea(LatLngBounds bounds) async {
     double top = bounds.northeast.latitude;
@@ -48,7 +52,137 @@ class PaliveAPI {
                 .onError((error, stackTrace) => _fetchFuelStation(null));
   }
 
-  Future<FuelPrice> addFuelPrice(String fuelType, int stationId, double price) async {
+  Future<List<FuelStation>> loadFuelStationsByCity(String city) async {
+    Uri url = Uri.parse(API_URL + '/fuelStations/search/city?city=' + city);
+    String token = await _bearerToken();
+    return http.get(url, headers: {HttpHeaders.authorizationHeader: token})
+                .then((res) {
+                  Map body = jsonDecode(res.body);
+                  List stations = body['_embedded']['fuelStations'];
+                  return stations.map((e) =>
+                      _fetchFuelStation(e)
+                  ).toList();
+                })
+                .onError((error, stackTrace) => []);
+  }
+
+  Future<List<FuelStation>> loadFuelStationByCityAndStreet(String city, String street) async {
+    Uri url = Uri.parse(API_URL + '/fuelStations/search/street?city=' + city + '&street=' + street);
+    String token = await _bearerToken();
+    return http.get(url, headers: {HttpHeaders.authorizationHeader: token})
+        .then((res) {
+          Map body = jsonDecode(res.body);
+          List stations = body['_embedded']['fuelStations'];
+          return stations.map((e) =>
+              _fetchFuelStation(e)
+          ).toList();
+        })
+        .onError((error, stackTrace) => []);
+  }
+
+  Future<Uri> addFuelStation(double lat, double lng, String name, String brand, 
+                              int? ownerId, String city, String? street, 
+                              String plotNumber, Set<String>? services, Url? logoUrl) 
+                          async {
+
+    Uri url = Uri.parse(API_URL + '/fuelStations/create');
+    String token = await _bearerToken();
+    return http.post(url,
+                      headers: {HttpHeaders.authorizationHeader: token},
+                      body: <String, Object?> {
+                        'latitude': lat,
+                        'longitude': lng,
+                        'name': name,
+                        'brand': brand,
+                        'ownerId': ownerId,
+                        'city': city,
+                        'street': street,
+                        'plotNumber': plotNumber,
+                        'services': services,
+                        'logoUrl': logoUrl
+                      }
+                )
+                .then((value) => Uri.parse(value.body));
+    
+  }
+
+  Future<void> updateFuelStation(int id, int? ownerId, String brand, String name) async {
+    Uri url = Uri.parse(API_URL + '/fuelStations/update');
+    String token = await _bearerToken();
+    return http.put(url,
+                    headers: {HttpHeaders.authorizationHeader: token},
+                    body: <String, Object?> {
+                      'id': id,
+                      'ownerId': ownerId,
+                      'brand': brand,
+                      'name': name
+                    }
+                  ).then((value) => null);
+  }
+
+  // fuel prices
+
+  Future<List<FuelPrice>> loadFuelPricesByStationId(int stationId) async {
+    Uri url = Uri.parse(API_URL + '/fuelStations/' + stationId.toString() + '/prices');
+    String token = await _bearerToken();
+    return http.get(url, headers: {HttpHeaders.authorizationHeader: token})
+                .then((res) {
+                    Map body = jsonDecode(res.body);
+                    List prices = body['_embedded']['fuelPrices'];
+                    return prices.map((e) => _fetchFuelPrice(e)).toList();
+                })
+                .onError((error, stackTrace) => []);
+  }
+
+  Future<List<FuelPrice>> loadLowestPricesInCity(String city) async {
+    Uri url = Uri.parse(API_URL + '/fuelPrices/search/city?city=' + city);
+    String token = await _bearerToken();
+    return http.get(url, headers: {HttpHeaders.authorizationHeader: token})
+                .then((res) {
+                  Map body = jsonDecode(res.body);
+                  List prices = body['_embedded']['fuelPrices'];
+                  return prices.map((e) => _fetchFuelPrice(e)).toList();
+                })
+                .onError((error, stackTrace) => []);
+  }
+
+  Future<List<FuelPrice>> loadLowestPricesByFuelType(String fuelType) async {
+    Uri url = Uri.parse(API_URL + '/fuelPrices/search/fuelType?fuelType=' + fuelType);
+    String token = await _bearerToken();
+    return http.get(url, headers: {HttpHeaders.authorizationHeader: token})
+                .then((res) {
+                  Map body = jsonDecode(res.body);
+                  List prices = body['_embedded']['fuelPrices'];
+                  return prices.map((e) => _fetchFuelPrice(e)).toList();
+                })
+                .onError((error, stackTrace) => []);
+  }
+  
+  Future<List<FuelPrice>> loadLowestPricesByCityAndType(String city, String type) async {
+    Uri url = Uri.parse(API_URL + '/fuelPrices/search/cityAndType?city=' + city + '&fuelType=' + type);
+    String token = await _bearerToken();
+    return http.get(url, headers: {HttpHeaders.authorizationHeader: token})
+                .then((res) {
+                  Map body = jsonDecode(res.body);
+                  List prices = body['_embedded']['fuelPrices'];
+                  return prices.map((e) => _fetchFuelPrice(e)).toList();
+                })
+                .onError((error, stackTrace) => []);
+  }
+
+  Future<List<FuelPrice>> loadPricesByStationBrand(String brand) async {
+    Uri url = Uri.parse(API_URL + '/fuelPrices/search/brand?brand=' + brand);
+    String token = await _bearerToken();
+    return http.get(url, headers: {HttpHeaders.authorizationHeader: token})
+                .then((res) {
+                  Map body = jsonDecode(res.body);
+                  List prices = body['_embedded']['fuelPrices'];
+                  return prices.map((e) => _fetchFuelPrice(e)).toList();
+                })
+                .onError((error, stackTrace) => []);
+  }
+
+  Future<Uri> addFuelPrice(String fuelType, int stationId, double price) async {
     Uri url = Uri.parse(API_URL + '/fuelPrices/create');
     String token = await _bearerToken();
     return http.post(
@@ -59,9 +193,52 @@ class PaliveAPI {
           'price': price
         }),
         headers: {HttpHeaders.authorizationHeader: token})
-        .then((value) => _fetchFuelPrice(value))
-        .onError((error, stackTrace) => _fetchFuelPrice(null));
+        .then((value) => Uri.parse(value.body));
   }
+
+  Future<void> updateFuelPrice(int fuelPriceId, String fuelType, int stationId, double price) async {
+    Uri url = Uri.parse(API_URL + '/fuelPrices/update');
+    String token = await _bearerToken();
+    return http.put(url,
+                    headers: {HttpHeaders.authorizationHeader: token},
+                    body: jsonEncode(<String, Object>{
+                      'id': fuelPriceId,
+                      'type': fuelType,
+                      'stationId': stationId,
+                      'price': price
+                    }))
+                .then((value) => null);
+  }
+
+  Future<void> deleteFuelPrice(int fuelPriceId) async {
+    Uri url = Uri.parse(API_URL + '/fuelPrices/' + fuelPriceId.toString());
+    String token = await _bearerToken();
+    return http.delete(url, headers: {HttpHeaders.authorizationHeader: token})
+                .then((value) => null);
+  }
+
+  Future<Uri> reportFuelPrice(int fuelPriceId) async {
+    Uri url = Uri.parse(API_URL + '/reports/' + fuelPriceId.toString());
+    String token = await _bearerToken();
+    return http.post(url, headers: {HttpHeaders.authorizationHeader: token})
+                .then((value) => Uri.parse(value.body));
+  }
+
+  // comments
+
+  Future<List<Comment>> loadCommentsByStationId(int stationId) async {
+    Uri url = Uri.parse(API_URL + '/fuelStations/' + stationId.toString() + '/comments');
+    String token = await _bearerToken();
+    return http.get(url, headers: {HttpHeaders.authorizationHeader: token})
+                .then((res) {
+                  Map body = jsonDecode(res.body);
+                  List comments = body['_embedded']['comments'];
+                  return comments.map((e) => _fetchComment(e)).toList();
+                })
+                .onError((error, stackTrace) => []);
+  }
+
+  // mapping functions
 
   FuelStation _fetchFuelStation(dynamic e) {
     return FuelStation(
@@ -97,6 +274,8 @@ class PaliveAPI {
         e['price'] ?? 0.00
     );
   }
+
+  // auth
 
   Future<String> _bearerToken() async {
     if(_currentUser == null) {
