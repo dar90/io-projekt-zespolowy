@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -82,7 +81,7 @@ class PaliveAPI {
 
   Future<Uri> addFuelStation(double lat, double lng, String name, String brand, 
                               int? ownerId, String city, String? street, 
-                              String plotNumber, Set<String>? services, Url? logoUrl) 
+                              String plotNumber, Set<String>? services, Uri? logoUrl)
                           async {
 
     Uri url = Uri.parse(API_URL + '/fuelStations/create');
