@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class PaliveAPI {
-  static const String API_URL = 'http://10.0.2.2:8080/api';
+  static const String API_URL = 'https://palive-api.herokuapp.com/api';
 
   final FirebaseAuthentication auth;
 
