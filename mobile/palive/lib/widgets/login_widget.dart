@@ -75,8 +75,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                 primary: Colors.white12,
                 textStyle: const TextStyle(fontSize: 20),
               ),
-              onPressed: () {
-                print ("logowanie google");
+              onPressed: () async {
+                FirebaseAuthentication auth = context.read();
+                String result = await auth.logInWithGoogle();
               },
               child: const Text('google'),
 
