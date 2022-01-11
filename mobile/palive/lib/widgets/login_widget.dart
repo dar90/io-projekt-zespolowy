@@ -55,7 +55,32 @@ class _LoginWidgetState extends State<LoginWidget> {
                   }
                 },
                 child: Text('Zaloguj')
-            )
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.fromLTRB(70.0, 10.0 , 70.0, 15.0),
+                primary: Colors.white10,
+                textStyle: const TextStyle(fontSize: 20),
+              ),
+              onPressed: () {
+                print ("logowanie fb");
+              },
+              child: const Text('fb'),
+
+            ),
+            //],
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.fromLTRB(50.0, 10.0 , 50.0, 15.0),
+                primary: Colors.white12,
+                textStyle: const TextStyle(fontSize: 20),
+              ),
+              onPressed: () {
+                print ("logowanie google");
+              },
+              child: const Text('google'),
+
+            ),
           ],
         ),
       )
