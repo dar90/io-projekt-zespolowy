@@ -27,35 +27,38 @@ class _LoginWidgetState extends State<LoginWidget> {
         title: Text('Logowanie'),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: loginController,
-            decoration: const InputDecoration(
-                labelText: 'Adres email'
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: loginController,
+              decoration: const InputDecoration(
+                  labelText: 'Adres email'
+              ),
             ),
-          ),
-          TextField(
-            controller: passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(
-                labelText: 'Hasło'
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                  labelText: 'Hasło'
+              ),
             ),
-          ),
-          ElevatedButton(
-              onPressed: () async {
-                FirebaseAuthentication auth = context.read();
-                String email = loginController.text;
-                String password = passwordController.text;
-                String result = await auth.logInWithEmailAndPassword(email, password);
-                if(result == "OK") {
-                  Navigator.pop(context);
-                }
-              },
-              child: Text('Zaloguj')
-          )
-        ],
-      ),
+            ElevatedButton(
+                onPressed: () async {
+                  FirebaseAuthentication auth = context.read();
+                  String email = loginController.text;
+                  String password = passwordController.text;
+                  String result = await auth.logInWithEmailAndPassword(email, password);
+                  if(result == "OK") {
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text('Zaloguj')
+            )
+          ],
+        ),
+      )
     );
   }
 }

@@ -14,6 +14,7 @@ class PetrolStationWidget extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Informacje o stacji'),
         centerTitle: true,
+        backgroundColor: Colors.red,
       ),
       body: Center(
         child: Column(
