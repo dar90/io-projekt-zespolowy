@@ -104,8 +104,15 @@ function geoFindMe() {
                 <th class="ON"><input class="station_input" type="text" value="${ON}" disabled></th>
                 <th class="ON+"><input class="station_input" type="text" value="${ON_p}" disabled></th>
                 <th class="CNG"><input class="station_input" type="text" value="${CNG}" disabled></th>
-                <th><button class="more_button">...</button></th>
+                <th><button class="more_button" data-station-id="${el['id']}">...</button></th>
             </tr>`
+                  })
+                  .then(() => {
+                    document.querySelectorAll('.more_button').forEach(
+                      btn => btn.addEventListener(
+                        'click', (e) => console.log(e.target.dataset.stationId)
+                      )
+                    );
                   });
           });
             
