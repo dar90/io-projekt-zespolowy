@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_test/petrol_station.dart';
+import 'package:google_maps_test/models/fuel_station.dart';
+import 'package:google_maps_test/providers/palive_api.dart';
 
 class PetrolStationWidget extends StatelessWidget {
 
-  final PetrolStation petrolStation;
+  final FuelStation petrolStation;
 
   const PetrolStationWidget ({Key? key, required this.petrolStation}) : super(key: key);
 
@@ -13,6 +14,7 @@ class PetrolStationWidget extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Informacje o stacji'),
         centerTitle: true,
+        backgroundColor: Colors.red,
       ),
       body: Center(
         child: Column(

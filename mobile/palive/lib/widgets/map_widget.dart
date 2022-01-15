@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_test/petrol_station.dart';
-import 'package:google_maps_test/petrol_station_widget.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:google_maps_test/models/fuel_station.dart';
+import 'package:google_maps_test/providers/palive_api.dart';
+import 'package:google_maps_test/widgets/petrol_station_widget.dart';
+import 'package:provider/provider.dart';
 
 class MapWidget extends StatefulWidget {
   const MapWidget({Key? key}) : super(key: key);
@@ -15,37 +14,15 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
 
-  List<PetrolStation> petrolStations = [];
+  List<FuelStation> petrolStations = [];
 
   late GoogleMapController mapController;
 
   void _onMapCreated(GoogleMapController controller) => mapController = controller;
 
-  Future fetchData(LatLngBounds bounds) async {
-    double top = bounds.northeast.latitude;
-    double bottom = bounds.southwest.latitude;
-    double left = bounds.southwest.longitude;
-    double right = bounds.northeast.longitude;
-    String searchString = '?top=$top&bottom=$bottom&left=$left&right=$right';
-    http.Response res = await http.get(Uri.parse('http://10.0.2.2:8080/api/fuelStations/search/area'+searchString));
-    if(res.statusCode == 200) {
-      setState(() {
-        Map body = jsonDecode(res.body);
-        List stations = body['_embedded']['fuelStations'];
-        petrolStations = stations.map((e) =>
-            PetrolStation(
-                id: e['id'],
-                latitude: e['latitude'],
-                longitude: e['longitude'],
-                name: e['name']
-            )
-        ).toList();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    PaliveAPI api = context.read();
     return GoogleMap(
       onMapCreated: _onMapCreated,
       initialCameraPosition: const CameraPosition(
@@ -54,7 +31,13 @@ class _MapWidgetState extends State<MapWidget> {
       ),
       myLocationEnabled: true,
       myLocationButtonEnabled: true,
-      onCameraIdle: () => mapController.getVisibleRegion().then((value) => fetchData(value)),
+      onCameraIdle: () => mapController.getVisibleRegion().then((area) {
+        api.loadFuelStationsByArea(area).then((value) {
+          setState(() {
+            petrolStations = value;
+          });
+        });
+      }),
       zoomControlsEnabled: true,
       markers: petrolStations
                   .map<Marker>(

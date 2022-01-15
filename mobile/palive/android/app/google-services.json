@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "423136422457",
+    "project_id": "fuelpricesapp",
+    "storage_bucket": "fuelpricesapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423136422457:android:530d0dba26d980c41cbbe8",
+        "android_client_info": {
+          "package_name": "com.example.google_maps_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423136422457-53h2gvi4em2v1t6jo2hfbbatkueghipj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfZtMsxTqlsa-XlldJbeS2_rFkuZhIxq0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423136422457-53h2gvi4em2v1t6jo2hfbbatkueghipj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

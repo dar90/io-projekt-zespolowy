@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_test/menu_button_widget.dart';
+import 'package:google_maps_test/widgets/menu_button_widget.dart';
 import 'map_widget.dart';
 
 class Home extends StatelessWidget {
