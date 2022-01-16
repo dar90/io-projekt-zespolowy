@@ -57,6 +57,7 @@ function geoFindMe() {
     // const mapLink = document.querySelector('#map-link');
     const location_text = document.getElementById('location-text');
     var station_list = document.getElementById('stations_container');
+    var popup_content = document.getElementById('popup_content');
   
     // mapLink.href = '';
     // mapLink.textContent = '';
@@ -110,7 +111,57 @@ function geoFindMe() {
                   .then(() => {
                     document.querySelectorAll('.more_button').forEach(
                       btn => btn.addEventListener(
-                        'click', (e) => console.log(e.target.dataset.stationId)
+                        'click', (e) => {
+                          console.log(e.target.dataset.stationId)
+
+                          popup_content.innerHTML = '';
+                          fetch(`https://palive-api.herokuapp.com/api/fuelStations/${e.target.dataset.stationId}`).then(function(response) {
+                          return response.json();
+                          }).then((data) => {
+                            console.log(data)
+                            popup_content.innerHTML += `<span class="popup_station_name popup_text">${data['name']}</span>
+                            <span class="popup_station_address popup_text">${data['city']}, ${data['street']} ${data['plotNumber']}</span>
+                            <p class="popup_station_services_text">SERWISY</p>
+                            <div class="services_container">`
+                            data['services'].forEach (el => {
+                              popup_content.innerHTML += `
+                              <p class="popup_service_unit">${mapFuelStationServiceToString(el)}</p>`
+                            })
+                            popup_content.innerHTML += `</div>
+                            <p class="popup_regular_text">DODAJ CENĘ</p>
+                            <div class="popup_add_value_container">
+                                <label for="popup_gas_type">WYBIERZ TYP PALIWA:</label>
+                                <select name="popup_gas_type" id="popup_gas_type">
+                                    <option value="PB_95">PB95</option>
+                                    <option value="PB_98">PB98</option>
+                                    <option value="LPG">LPG</option>
+                                    <option value="ON">ON</option>
+                                    <option value="ON_PLUS">ON+</option>
+                                    <option value="CNG">CNG</option>
+                                </select>
+                                <input type="text" name="popup_add_price_input" id="popup_add_price_input" placeholder="PODAJ CENE">
+                            </div>
+                            <p class="popup_regular_text">HISTORIA CEN</p>
+                            <div class="popup_price_history">
+                                <table class="popup_table">
+                                    <tr>
+                                        <th>TYP PALIWA</th>
+                                        <th>CENA</th>
+                                        <th>DATA ZMIANY</th>
+                                    </tr>
+                                    <tr>
+                                        <td>PB95</td>
+                                        <td>5.95</td>
+                                        <td>2022-01-14 20:26:09</td>
+                                    </tr>
+                                </table>
+                            </div>`
+                           }).catch(function() {
+                             console.log("Booo");
+                            });
+
+
+                        }
                       )
                     );
                   });
@@ -139,7 +190,6 @@ document.getElementById('login_via_facebook').addEventListener('click', (e) => {
 })
   
   document.querySelector('#find-me').addEventListener('click', geoFindMe);
-  document.querySelector()
 
   function mapFuelStationServiceToString(str) {
     return {

@@ -296,8 +296,8 @@ table {
 .popup1__close{
     font-weight: bold;
     position: absolute;
-    top: -0.5%;
-    right: -0.5%;
+    top: -0.2%;
+    right: -0.2%;
     text-decoration: none;
     color: #fff;
     font-size: 10px;
@@ -321,6 +321,7 @@ table {
 
 .popup_station_name {
     font-size: 20px;
+    font-weight: bolder;
 }
 
 .popup_text {
@@ -332,14 +333,15 @@ table {
     margin-top: 50px;
 }
 
-.popup_service_icon {
-    margin: 0;
-    padding: 0;
-    width: 50px;
-    height: 50px;
+.popup_service_unit {
+    display: inline;
+    padding: 4px 10px;
+    background-color: #6a6a6a;
+    border-radius: 30px;
+    margin: 5px;
 }
 
-.img_container {
+.services_container {
     display: block;
 }
 
