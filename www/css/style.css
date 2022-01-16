@@ -369,6 +369,7 @@ table {
     background-color: #393939;
     border: rgba(255, 255, 255, 0.3) 1px solid;
     color: rgba(255, 255, 255, 0.5);
+    width: 200px;
 }
 
 .popup_price_history {

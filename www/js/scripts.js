@@ -113,6 +113,7 @@ function geoFindMe() {
                       btn => btn.addEventListener(
                         'click', (e) => {
                           console.log(e.target.dataset.stationId)
+                          localStorage.setItem('currentStationID', e.target.dataset.stationId)
 
                           popup_content.innerHTML = '';
                           fetch(`https://palive-api.herokuapp.com/api/fuelStations/${e.target.dataset.stationId}`).then(function(response) {
@@ -139,8 +140,8 @@ function geoFindMe() {
                                     <option value="ON_PLUS">ON+</option>
                                     <option value="CNG">CNG</option>
                                 </select>
-                                <input type="text" name="popup_add_price_input" id="popup_add_price_input" placeholder="PODAJ CENE">
-                                <button class="popup_add_price_button" id="popup_add_button">DODAJ</button>
+                                <input type="number" name="popup_add_price_input" id="popup_add_price_input" placeholder="PODAJ CENE" min="0.01" max="9.99" required>
+                                <button onclick="add_price()" class="popup_add_price_button" id="popup_add_button">DODAJ</button>
                             </div>`
 
                                     fetch(`https://palive-api.herokuapp.com/api/fuelStations/${e.target.dataset.stationId}/prices`).then(function(response) {
@@ -198,19 +199,11 @@ function geoFindMe() {
                                        }).catch(function(err) {
                                          console.log(err);
                                         });
-
-
                            }).catch(function() {
                              console.log("Booo");
                             });
 
-                            const addPrice_btn = document.getElementById('popup_add_button');
-                            addPrice_btn.addEventListener('click', (e) =>
-                            {
-                              e.preventDefault();
-                              const type = document.getElementById('popup_gas_type')
-                              console.dir(type);
-                            })
+                            
                         }
                       )
                     );
@@ -293,3 +286,19 @@ document.getElementById('login_via_facebook').addEventListener('click', (e) => {
       'INPOST' : 'Paczkomat INPOST'
     }[str];
   } 
+
+function add_price() {
+  const type = document.getElementById('popup_gas_type').value
+  var value = document.getElementById('popup_add_price_input');
+  if(value.value>9.99){
+    value.value = 9.99;
+  }
+
+  if (value.value == '' || value.value < 0.01)
+  {
+    value.value = 0.01;
+  }
+
+  console.log(type);
+  console.log(value.value);
+}
