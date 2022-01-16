@@ -95,16 +95,16 @@ function geoFindMe() {
                 const PB98 = ceny.filter(cena => cena.fuelType==='PB_98').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[0]?.price ?? '-';
                 const LPG = ceny.filter(cena => cena.fuelType==='LPG').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[0]?.price ?? '-';
                 const ON = ceny.filter(cena => cena.fuelType==='ON').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[0]?.price ?? '-';
-                const ON_p = ceny.filter(cena => cena.fuelType==='ON_PLUS').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[0]?.price ?? '-';
-                const CNG = ceny.filter(cena => cena.fuelType==='CNG').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[0]?.price ?? '-';
+                const ON_p = ceny.filter(cena => cena.fuelType==='ON_PLUS').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[0]?.price;
+                const CNG = ceny.filter(cena => cena.fuelType==='CNG').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[0]?.price;
                 station_list.innerHTML += `<tr class="station">
                 <th class="name"><a class="station_link" href="https://www.google.com/maps/@${el['latitude']},${el['longitude']},18.50z" target="_blank">${el['name']}</a></th>
-                <th class="PB95"><div>${PB95}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
-                <th class="PB98"><div>${PB98}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
-                <th class="LPG"><div>${LPG}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
-                <th class="ON"><div>${ON}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
-                <th class="ON+"><div>${ON_p}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
-                <th class="CNG"><div>${CNG}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
+                <th class="PB95"><div>${PB95?.toFixed(2)}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
+                <th class="PB98"><div>${PB98?.toFixed(2)}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
+                <th class="LPG"><div>${LPG?.toFixed(2)}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
+                <th class="ON"><div>${ON?.toFixed(2)}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
+                <th class="ON+"><div>${ON_p?.toFixed(2)  ?? '-'}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
+                <th class="CNG"><div>${CNG?.toFixed(2) ?? '-'}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
                 <th><a href="#popup_1"><button class="more_button" data-station-id="${el['id']}">...</button></a></th>
             </tr>`
                   })
