@@ -140,3 +140,7 @@ document.getElementById('login_via_facebook').addEventListener('click', (e) => {
   
   document.querySelector('#find-me').addEventListener('click', geoFindMe);
   document.querySelector()
+
+  function mapFuelStationServiceToString(str) {
+    return "placeholder";
+  } 
