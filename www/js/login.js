@@ -16,7 +16,7 @@ loginForm.addEventListener('submit', (e) => {
     const password = loginForm['password']?.value;
     signInWithEmailAndPassword(firebaseAuth, email, password)
         .then(res => console.log(res))
-        .catch(err => console.log(err));
+        .catch(err => alert('Nieprawodłowy login/hasło'));
 });
 
 
@@ -50,6 +50,7 @@ logout_btn.addEventListener('click', (e) => {
       login_but.style.display = "block";
       logout_btn.style.display = "none";
       user_info.style.display = "none";
+      window.localStorage.setItem('user', '')
       login_fun();
     }).catch((error) => {
       // An error happened.

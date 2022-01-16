@@ -305,6 +305,7 @@ table {
     height: 30px;
     line-height: 34px;
     transition: all 0.3s ease;
+    border-bottom-left-radius: 20px;
 }
 
 .popup1__close:hover{
@@ -346,7 +347,7 @@ table {
     flex-wrap: wrap;
 }
 
-.popup_regular_text {
+#popup_regular_text {
     display: block;
 }
 
@@ -380,17 +381,32 @@ table {
     width: 100%;
 }
 
-/* .popup_add_price_button {
+.popup_add_price_button {
     background-color: #393939;
     border: none;
     color: #fff;
     padding: 10px 40px;
-} */
+}
 
-/* .popup_add_price_button:hover {
+.popup_add_price_button:hover {
     background-color: #6a6a6a;
-} */
+}
+
+.popup_add_price_button:disabled {
+    background-color: #262622;
+    color: #000;
+}
 
 .popup_add_label {
     line-height: 2.5em;
+}
+
+.price_report {
+    color: rgba(255, 0, 0, 0.7);
+    margin-left: 5px;
+    width: 4px;
+    height: 20px;
+    background-color: #262622;
+    font-size: 14px;
+    border: none;
 }

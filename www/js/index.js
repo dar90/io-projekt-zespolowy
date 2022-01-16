@@ -26,6 +26,7 @@ onAuthStateChanged(firebaseAuth, user => {
         login_but.style.display = "none";
         logout_btn.style.display = "block"
         find_fun();
+        geoFindMe();
     }
 });
 

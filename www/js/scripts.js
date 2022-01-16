@@ -99,12 +99,12 @@ function geoFindMe() {
                 const CNG = ceny.filter(cena => cena.fuelType==='CNG').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[0]?.price ?? '-';
                 station_list.innerHTML += `<tr class="station">
                 <th class="name"><a class="station_link" href="https://www.google.com/maps/@${el['latitude']},${el['longitude']},18.50z" target="_blank">${el['name']}</a></th>
-                <th class="PB95"><input class="station_input" type="text" value="${PB95}" disabled></th>
-                <th class="PB98"><input class="station_input" type="text" value="${PB98}" disabled></th>
-                <th class="LPG"><input class="station_input" type="text" value="${LPG}" disabled></th>
-                <th class="ON"><input class="station_input" type="text" value="${ON}" disabled></th>
-                <th class="ON+"><input class="station_input" type="text" value="${ON_p}" disabled></th>
-                <th class="CNG"><input class="station_input" type="text" value="${CNG}" disabled></th>
+                <th class="PB95"><div>${PB95}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
+                <th class="PB98"><div>${PB98}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
+                <th class="LPG"><div>${LPG}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
+                <th class="ON"><div>${ON}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
+                <th class="ON+"><div>${ON_p}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
+                <th class="CNG"><div>${CNG}<button title="Zgłoś cenę" class="price_report">!</button></div></th>
                 <th><a href="#popup_1"><button class="more_button" data-station-id="${el['id']}">...</button></a></th>
             </tr>`
                   })
@@ -129,7 +129,7 @@ function geoFindMe() {
                               <div class="popup_service_unit">${mapFuelStationServiceToString(el)}</div>`
                             })
                             popup_content.innerHTML += `</div>
-                            <p class="popup_regular_text">DODAJ CENĘ</p>
+                            <p id="popup_regular_text">DODAJ CENĘ</p>
                             <div class="popup_add_value_container">
                                 <label for="popup_gas_type" class="popup_add_label">WYBIERZ TYP PALIWA:</label>
                                 <select name="popup_gas_type" id="popup_gas_type">
@@ -141,7 +141,7 @@ function geoFindMe() {
                                     <option value="CNG">CNG</option>
                                 </select>
                                 <input onchange="validateInput(event)" type="number" name="popup_add_price_input" id="popup_add_price_input" placeholder="PODAJ CENE" min="0.01" max="9.99" required>
-                                <button onclick="add_price()" class="popup_add_price_button" id="popup_add_button" disabled>DODAJ</button>
+                                <a href="#popup_closer"><button onclick="add_price()" class="popup_add_price_button" id="popup_add_button" disabled>DODAJ</button></a>
                             </div>`;
 
                                     fetch(`https://palive-api.herokuapp.com/api/fuelStations/${e.target.dataset.stationId}/prices`).then(function(response) {
@@ -287,24 +287,51 @@ document.getElementById('login_via_facebook').addEventListener('click', (e) => {
     }[str];
   } 
 
-function add_price() {
-  const type = document.getElementById('popup_gas_type').value
-  var value = document.getElementById('popup_add_price_input');
-  if(value.value>9.99){
-    value.value = 9.99;
+  async function postData(url = '', data = {}) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${JSON.parse(localStorage.getItem('user'))?.stsTokenManager?.accessToken}`
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
   }
 
-  if (value.value == '' || value.value < 0.01)
-  {
-    value.value = 0.01;
+  function add_price(){
+    if(parseJwt(JSON.parse(localStorage.getItem('user'))?.stsTokenManager?.accessToken)?.moderator == true)
+    {
+      postData("https://palive-api.herokuapp.com/api/fuelPrices/create" , {
+      "stationId" : +localStorage.getItem('currentStationID'),
+      "type" : document.getElementById('popup_gas_type').value,
+      "price" : document.getElementById('popup_add_price_input').value
+      })
+      geoFindMe();
+    } else
+    {
+      alert('Modyfikacja cen dostępna tylko moderatorów/administratorów');
+    }
   }
-
-  console.log(type);
-  console.log(value.value);
-}
-
 const validateInput = (e) => {
   const submitPriceBtn = document.querySelector('#popup_add_button');
   submitPriceBtn.disabled = !(e.target.value >= 0.01 && e.target.value <= 9.99);
   console.dir(document.querySelector('#popup_add_button'));
+};
+
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
 };
