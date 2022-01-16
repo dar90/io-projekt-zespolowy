@@ -140,9 +140,9 @@ function geoFindMe() {
                                     <option value="ON_PLUS">ON+</option>
                                     <option value="CNG">CNG</option>
                                 </select>
-                                <input type="number" name="popup_add_price_input" id="popup_add_price_input" placeholder="PODAJ CENE" min="0.01" max="9.99" required>
-                                <button onclick="add_price()" class="popup_add_price_button" id="popup_add_button">DODAJ</button>
-                            </div>`
+                                <input onchange="validateInput(event)" type="number" name="popup_add_price_input" id="popup_add_price_input" placeholder="PODAJ CENE" min="0.01" max="9.99" required>
+                                <button onclick="add_price()" class="popup_add_price_button" id="popup_add_button" disabled>DODAJ</button>
+                            </div>`;
 
                                     fetch(`https://palive-api.herokuapp.com/api/fuelStations/${e.target.dataset.stationId}/prices`).then(function(response) {
                                       return response.json();
@@ -302,3 +302,9 @@ function add_price() {
   console.log(type);
   console.log(value.value);
 }
+
+const validateInput = (e) => {
+  const submitPriceBtn = document.querySelector('#popup_add_button');
+  submitPriceBtn.disabled = !(e.target.value >= 0.01 && e.target.value <= 9.99);
+  console.dir(document.querySelector('#popup_add_button'));
+};

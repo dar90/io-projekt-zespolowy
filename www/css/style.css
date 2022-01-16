@@ -380,16 +380,16 @@ table {
     width: 100%;
 }
 
-.popup_add_price_button {
+/* .popup_add_price_button {
     background-color: #393939;
     border: none;
     color: #fff;
     padding: 10px 40px;
-}
+} */
 
-.popup_add_price_button:hover {
+/* .popup_add_price_button:hover {
     background-color: #6a6a6a;
-}
+} */
 
 .popup_add_label {
     line-height: 2.5em;
