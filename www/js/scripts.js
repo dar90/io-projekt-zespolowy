@@ -70,7 +70,7 @@ function geoFindMe() {
     //   mapLink.href = `https://www.google.com/maps/search/stacja+paliw/@${latitude},${longitude}z/data=!4m4!2m3!5m1!2e3!6e2`;
   
     //   mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
-      location_text.innerHTML = `Latitude: ${latitude} °, Longitude: ${longitude}°`
+      location_text.innerHTML = `Szerokość: ${latitude} °, Długość: ${longitude}°`
       fetch(`https://palive-api.herokuapp.com/api/fuelStations/closest?quantity=30&lat=${latitude}&lng=${longitude}`).then(function(response) {
         return response.json();
       }).then((data) => {
@@ -98,7 +98,7 @@ function geoFindMe() {
                 const ON_p = ceny.filter(cena => cena.fuelType==='ON_PLUS').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[0]?.price ?? '-';
                 const CNG = ceny.filter(cena => cena.fuelType==='CNG').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[0]?.price ?? '-';
                 station_list.innerHTML += `<tr class="station">
-                <th class="name"><a class="station_link" href="https://www.google.com/maps/@${el['latitude']},${el['longitude']},18z" target="_blank">${el['name']}</a></th>
+                <th class="name"><a class="station_link" href="https://www.google.com/maps/@${el['latitude']},${el['longitude']},18.50z" target="_blank">${el['name']}</a></th>
                 <th class="PB95"><input class="station_input" type="text" value="${PB95}" disabled></th>
                 <th class="PB98"><input class="station_input" type="text" value="${PB98}" disabled></th>
                 <th class="LPG"><input class="station_input" type="text" value="${LPG}" disabled></th>
@@ -121,16 +121,16 @@ function geoFindMe() {
                             console.log(data)
                             popup_content.innerHTML += `<span class="popup_station_name popup_text">${data['name']}</span>
                             <span class="popup_station_address popup_text">${data['city']}, ${data['street']} ${data['plotNumber']}</span>
-                            <p class="popup_station_services_text">SERWISY</p>
+                            <p class="popup_station_services_text">USŁUGI</p>
                             <div class="services_container">`
                             data['services'].forEach (el => {
                               popup_content.innerHTML += `
-                              <p class="popup_service_unit">${mapFuelStationServiceToString(el)}</p>`
+                              <div class="popup_service_unit">${mapFuelStationServiceToString(el)}</div>`
                             })
                             popup_content.innerHTML += `</div>
                             <p class="popup_regular_text">DODAJ CENĘ</p>
                             <div class="popup_add_value_container">
-                                <label for="popup_gas_type">WYBIERZ TYP PALIWA:</label>
+                                <label for="popup_gas_type" class="popup_add_label">WYBIERZ TYP PALIWA:</label>
                                 <select name="popup_gas_type" id="popup_gas_type">
                                     <option value="PB_95">PB95</option>
                                     <option value="PB_98">PB98</option>
@@ -140,27 +140,77 @@ function geoFindMe() {
                                     <option value="CNG">CNG</option>
                                 </select>
                                 <input type="text" name="popup_add_price_input" id="popup_add_price_input" placeholder="PODAJ CENE">
-                            </div>
-                            <p class="popup_regular_text">HISTORIA CEN</p>
-                            <div class="popup_price_history">
-                                <table class="popup_table">
-                                    <tr>
-                                        <th>TYP PALIWA</th>
-                                        <th>CENA</th>
-                                        <th>DATA ZMIANY</th>
-                                    </tr>
-                                    <tr>
-                                        <td>PB95</td>
-                                        <td>5.95</td>
-                                        <td>2022-01-14 20:26:09</td>
-                                    </tr>
-                                </table>
+                                <button class="popup_add_price_button" id="popup_add_button">DODAJ</button>
                             </div>`
+
+                                    fetch(`https://palive-api.herokuapp.com/api/fuelStations/${e.target.dataset.stationId}/prices`).then(function(response) {
+                                      return response.json();
+                                      }).then((prices) => {
+                                        console.log(prices);
+                                        const ceny = prices?._embedded?.fuelPrices;
+                                        const PB95 = ceny.filter(cena => cena.fuelType==='PB_95').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[1];
+                                        const PB98 = ceny.filter(cena => cena.fuelType==='PB_98').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[1] ?? '-';
+                                        const LPG = ceny.filter(cena => cena.fuelType==='LPG').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[1] ?? '-';
+                                        const ON = ceny.filter(cena => cena.fuelType==='ON').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[1] ?? '-';
+                                        const ON_p = ceny.filter(cena => cena.fuelType==='ON_PLUS').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[1] ?? '-';
+                                        const CNG = ceny.filter(cena => cena.fuelType==='CNG').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[1] ?? '-';
+                                        popup_content.innerHTML += `
+                                        <p class="popup_regular_text">POPRZEDNIE CENY</p>
+                                        <div class="popup_price_history">
+                                            <table class="popup_table">
+                                                <tr>
+                                                    <th>TYP PALIWA</th>
+                                                    <th>CENA</th>
+                                                    <th>DATA ZMIANY</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>PB95</td>
+                                                    <td>${PB95?.price ?? '-'}</td>
+                                                    <td>${PB95?.dateTime?.split('T')[0] ?? '-'}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>PB98</td>
+                                                    <td>${PB98?.price ?? '-'}</td>
+                                                    <td>${PB98?.dateTime?.split('T')[0] ?? '-'}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>LPG</td>
+                                                    <td>${LPG?.price ?? '-'}</td>
+                                                    <td>${LPG?.dateTime?.split('T')[0] ?? '-'}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>ON</td>
+                                                    <td>${ON?.price ?? '-'}</td>
+                                                    <td>${ON?.dateTime?.split('T')[0] ?? '-'}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>ON+</td>
+                                                    <td>${ON_p?.price ?? '-'}</td>
+                                                    <td>${ON_p?.dateTime?.split('T')[0] ?? '-'}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>CNG</td>
+                                                    <td>${CNG?.price ?? '-'}</td>
+                                                    <td>${CNG?.dateTime?.split('T')[0] ?? '-'}</td>
+                                                </tr>
+                                            </table>
+                                        </div>`
+                                       }).catch(function(err) {
+                                         console.log(err);
+                                        });
+
+
                            }).catch(function() {
                              console.log("Booo");
                             });
 
-
+                            const addPrice_btn = document.getElementById('popup_add_button');
+                            addPrice_btn.addEventListener('click', (e) =>
+                            {
+                              e.preventDefault();
+                              const type = document.getElementById('popup_gas_type')
+                              console.dir(type);
+                            })
                         }
                       )
                     );
