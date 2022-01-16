@@ -71,7 +71,47 @@
                     <a href="#popup_closer" class="popup1__close">X</a>
                     <div id="popup_content">
                         <span class="popup_station_name popup_text">STACJA TESTOWA</span>
-                        <span class="popup_station_address popup_text">UL. TESTOWA 123</span>   
+                        <span class="popup_station_address popup_text">UL. TESTOWA 123</span>
+                        <p class="popup_station_services_text">SERWISY</p>
+                        <div class="img_container">
+                            <img src="./img/autko.png" alt="" class="popup_service_icon" id="auto">   
+                            <img src="./img/ciężaróweczka.png" alt="" class="popup_service_icon" id="tier">
+                            <img src="./img/motorek.png" alt="" class="popup_service_icon" id="moto">
+                            <img src="./img/bankomacik.png" alt="" class="popup_service_icon" id="atm">
+                            <img src="./img/inwalidzik.png" alt="" class="popup_service_icon" id="invalid">
+                            <img src="./img/sztućce.png" alt="" class="popup_service_icon" id="cafe">
+                            <img src="./img/karteczka_paliwowa.png" alt="" class="popup_service_icon" id="gas_card">
+                            <img src="./img/plecaczek.png" alt="" class="popup_service_icon" id="bagpack">
+                            <img src="./img/wózeczek.png" alt="" class="popup_service_icon" id="baby">
+                        </div>
+                        <p class="popup_regular_text">DODAJ CENĘ</p>
+                        <div class="popup_add_value_container">
+                            <label for="popup_gas_type">WYBIERZ TYP PALIWA:</label>
+                            <select name="popup_gas_type" id="popup_gas_type">
+                                <option value="PB_95">PB95</option>
+                                <option value="PB_98">PB98</option>
+                                <option value="LPG">LPG</option>
+                                <option value="ON">ON</option>
+                                <option value="ON_PLUS">ON+</option>
+                                <option value="CNG">CNG</option>
+                            </select>
+                            <input type="text" name="popup_add_price_input" id="popup_add_price_input" placeholder="PODAJ CENE">
+                        </div>
+                        <p class="popup_regular_text">HISTORIA CEN</p>
+                        <div class="popup_price_history">
+                            <table class="popup_table">
+                                <tr>
+                                    <th>TYP PALIWA</th>
+                                    <th>CENA</th>
+                                    <th>DATA ZMIANY</th>
+                                </tr>
+                                <tr>
+                                    <td>PB95</td>
+                                    <td>5.95</td>
+                                    <td>2022-01-14 20:26:09</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

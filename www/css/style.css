@@ -280,7 +280,7 @@ table {
     top: 50%;
     margin-top: -20%;
     left: 50%;
-    margin-left: -25%;
+    margin-left: -36%;
     background-color: #fff;
     text-align: center;
     background-color: #393939;
@@ -289,8 +289,8 @@ table {
 }
 
 .popup1__content{
-    width: 600px;
-    height: 600px;
+    width: 1000px;
+    height: auto;
 }
 
 .popup1__close{
@@ -314,7 +314,7 @@ table {
 
 #popup_content {
     padding: 10px;
-    width: 565px;
+    width: 965px;
     color: #fff;
     text-align: left;
 }
@@ -325,4 +325,55 @@ table {
 
 .popup_text {
     display: block;
+    margin-bottom: 20px;
 }
+
+.popup_station_services_text{
+    margin-top: 50px;
+}
+
+.popup_service_icon {
+    margin: 0;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+}
+
+.img_container {
+    display: block;
+}
+
+.popup_regular_text {
+    display: block;
+}
+
+.popup_add_value_container {
+    display: flex;
+    justify-content: space-around;
+}
+
+#popup_gas_type {
+    background-color: #393939;
+    border: none;
+    color: #fff;
+}
+
+#popup_gas_type:hover {
+    border: black 1px solid;
+}
+
+#popup_add_price_input {
+    background-color: #393939;
+    border: rgba(255, 255, 255, 0.3) 1px solid;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.popup_price_history {
+    display: block;
+}
+
+.popup_table {
+    width: 100%;
+}
+
+
