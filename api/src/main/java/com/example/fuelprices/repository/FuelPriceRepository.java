@@ -35,4 +35,7 @@ public interface FuelPriceRepository extends Repository<FuelPrice, Long> {
     @RestResource(path = "brand", rel = "brand")
     List<FuelPrice> findByFuelStationBrand(FuelStationBrand brand);
 
+    @RestResource(path = "latest", rel = "latest")
+    List<FuelPrice> findFirst30ByOrderByDateTimeDesc();
+
 }

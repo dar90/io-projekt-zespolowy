@@ -13,7 +13,7 @@ public interface FuelStationRepository extends Repository<FuelStation, Long> {
     
     FuelStation findById(Long id);
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    // @PreAuthorize("hasAuthority('ADMIN')")
     List<FuelStation> findAll();
 
     @RestResource(exported = false)
