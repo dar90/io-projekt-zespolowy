@@ -99,12 +99,12 @@ function geoFindMe() {
                 const CNG = ceny.filter(cena => cena.fuelType==='CNG').sort((a, b) => new Date(b['dateTime'])-new Date(a['dateTime']))[0];
                 station_list.innerHTML += `<tr class="station">
                 <th class="name"><a class="station_link" href="https://www.google.com/maps/@${el['latitude']},${el['longitude']},18.50z" target="_blank">${el['name']}</a></th>
-                <th class="PB95"><div>${PB95?.price?.toFixed(2) ?? '-'}${PB95?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(PB95)}" onclick="reportPrice(event)"></i>` : ''}</div></th>
-                <th class="PB98"><div>${PB98?.price?.toFixed(2) ?? '-'}${PB98?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${PB98?.id}" onclick="reportPrice(event)"></i>` : ''}</div></th>
-                <th class="LPG"><div>${LPG?.price?.toFixed(2) ?? '-'}${LPG?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${LPG?.id}" onclick="reportPrice(event)"></i>` : ''}</div></th>
-                <th class="ON"><div>${ON?.price?.toFixed(2) ?? '-'}${ON?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${ON_p?.id}" onclick="reportPrice(event)"></i>` : ''}</div></th>
-                <th class="ON+"><div>${ON_p?.price?.toFixed(2)  ?? '-'}${ON_p?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${CNG?.id}" onclick="reportPrice(event)"></i>` : ''}</div></th>
-                <th class="CNG"><div>${CNG?.price?.toFixed(2) ?? '-'}${CNG?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(CNG)}" onclick="reportPrice(event)"></i>` : ''}</div></th>
+                <th class="PB95 ${PB95?.reportsQuantity > 0 ? 'reportedPrice' : ''}"><div>${PB95?.price?.toFixed(2) ?? '-'}${PB95?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(PB95)}" onclick="reportPrice(event)"></i>` : ''}</div></th>
+                <th class="PB98 ${PB98?.reportsQuantity > 0 ? 'reportedPrice' : ''}"><div>${PB98?.price?.toFixed(2) ?? '-'}${PB98?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(PB98)}" onclick="reportPrice(event)"></i>` : ''}</div></th>
+                <th class="LPG ${LPG?.reportsQuantity > 0 ? 'reportedPrice' : ''}"><div>${LPG?.price?.toFixed(2) ?? '-'}${LPG?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(LPG)}" onclick="reportPrice(event)"></i>` : ''}</div></th>
+                <th class="ON ${ON?.reportsQuantity > 0 ? 'reportedPrice' : ''}"><div>${ON?.price?.toFixed(2) ?? '-'}${ON?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(ON)}" onclick="reportPrice(event)"></i>` : ''}</div></th>
+                <th class="ON_p ${ON_p?.reportsQuantity > 0 ? 'reportedPrice' : ''}"><div>${ON_p?.price?.toFixed(2)  ?? '-'}${ON_p?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(ON_p)}" onclick="reportPrice(event)"></i>` : ''}</div></th>
+                <th class="CNG ${CNG?.reportsQuantity > 0 ? 'reportedPrice' : ''}"><div>${CNG?.price?.toFixed(2) ?? '-'}${CNG?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(CNG)}" onclick="reportPrice(event)"></i>` : ''}</div></th>
                 <th><a href="#popup_1"><button class="more_button" data-station-id="${el['id']}">...</button></a></th>
             </tr>`
                   })
@@ -164,34 +164,34 @@ function geoFindMe() {
                                                     <th>CENA</th>
                                                     <th>DATA ZMIANY</th>
                                                 </tr>
-                                                <tr>
+                                                <tr class=" ${PB95?.reportsQuantity > 0 ? 'reportedPrice' : ''}">
                                                     <td>PB95</td>
-                                                    <td>${PB95?.price ?? '-'}</td>
+                                                    <td class="PB95"><div>${PB95?.price?.toFixed(2) ?? '-'}${PB95?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(PB95)}" onclick="reportPrice(event)"></i>` : ''}</div></td>
                                                     <td>${PB95?.dateTime?.split('T')[0] ?? '-'}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>PB98</td>
-                                                    <td>${PB98?.price ?? '-'}</td>
+                                                    <td class="${PB98?.reportsQuantity > 0 ? 'reportedPrice' : ''}">PB98</td>
+                                                    <td class="PB98"><div>${PB98?.price?.toFixed(2) ?? '-'}${PB98?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(PB98)}" onclick="reportPrice(event)"></i>` : ''}</div></td>
                                                     <td>${PB98?.dateTime?.split('T')[0] ?? '-'}</td>
                                                 </tr>
-                                                <tr>
+                                                <tr class="${LPG?.reportsQuantity > 0 ? 'reportedPrice' : ''}">
                                                     <td>LPG</td>
-                                                    <td>${LPG?.price ?? '-'}</td>
+                                                    <td class="LPG"><div>${LPG?.price?.toFixed(2) ?? '-'}${LPG?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(LPG)}" onclick="reportPrice(event)"></i>` : ''}</div></td>
                                                     <td>${LPG?.dateTime?.split('T')[0] ?? '-'}</td>
                                                 </tr>
-                                                <tr>
+                                                <tr class="${ON?.reportsQuantity > 0 ? 'reportedPrice' : ''}">
                                                     <td>ON</td>
-                                                    <td>${ON?.price ?? '-'}</td>
+                                                    <td class="ON"><div>${ON?.price?.toFixed(2) ?? '-'}${ON?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(ON)}" onclick="reportPrice(event)"></i>` : ''}</div></td>
                                                     <td>${ON?.dateTime?.split('T')[0] ?? '-'}</td>
                                                 </tr>
-                                                <tr>
+                                                <tr class="${ON_p?.reportsQuantity > 0 ? 'reportedPrice' : ''}">
                                                     <td>ON+</td>
-                                                    <td>${ON_p?.price ?? '-'}</td>
+                                                    <td class="ON_p"><div>${ON_p?.price?.toFixed(2) ?? '-'}${ON_p?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(ON_p)}" onclick="reportPrice(event)"></i>` : ''}</div></td>
                                                     <td>${ON_p?.dateTime?.split('T')[0] ?? '-'}</td>
                                                 </tr>
-                                                <tr>
+                                                <tr class="${CNG?.reportsQuantity > 0 ? 'reportedPrice' : ''}">
                                                     <td>CNG</td>
-                                                    <td>${CNG?.price ?? '-'}</td>
+                                                    <td class="CNG"><div>${CNG?.price?.toFixed(2) ?? '-'}${CNG?.price ? `<i class="far fa-flag" title="Zgłoś cenę" data-price-id="${fetchPriceId(CNG)}" onclick="reportPrice(event)"></i>` : ''}</div></td>
                                                     <td>${CNG?.dateTime?.split('T')[0] ?? '-'}</td>
                                                 </tr>
                                             </table>
@@ -303,7 +303,7 @@ document.getElementById('login_via_facebook').addEventListener('click', (e) => {
       referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
       body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
-    return response.json(); // parses JSON response into native JavaScript objects
+    return response; // parses JSON response into native JavaScript objects
   }
 
   function add_price(){
@@ -338,10 +338,25 @@ function parseJwt (token) {
 
 const reportPrice = (e) => {
   postData('https://palive-api.herokuapp.com/api/reports/' + e.target.dataset.priceId)
-        .then(() => alert('Pomyślnie zgłoszono cenę!'))
-        .err((err) => {
-          if(err.status == 400) alert('Nie możesz zgłosić tej samej ceny więcej niż raz!');
-        });
+        .then((response) => {
+          switch(response?.status){
+            case 200:
+              {
+                alert("Pomyślnie zgłoszono cenę");
+                break;
+              }
+            case 400:
+              {
+                alert("Nie możesz zgłosić tę ocenę drugi raz");
+                break;
+              }
+            default:
+              {
+                alert('Nieznany błąd');
+                break;
+              }
+          }
+        })
 };
 
 const fetchPriceId = (price) => {

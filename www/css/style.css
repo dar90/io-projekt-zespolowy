@@ -415,3 +415,7 @@ table {
     color: rgba(255, 0, 0, 0.7);
     margin-left: 2px;
 }
+
+.reportedPrice {
+    color: rgba(255, 255, 255, 0.1)
+}
