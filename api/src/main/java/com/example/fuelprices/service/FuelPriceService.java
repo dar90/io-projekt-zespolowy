@@ -13,7 +13,10 @@ import com.example.fuelprices.repository.FuelStationRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class FuelPriceService {
     
     private final FuelPriceRepository repository;
@@ -31,7 +34,7 @@ public class FuelPriceService {
 
     private Optional<FuelPrice> addFuelPrice(AddOrEditFuelPriceDTO dto) {
         User author = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        FuelStation station = fuelStationRepository.findById(dto.id());
+        FuelStation station = fuelStationRepository.findById(dto.stationId());
 
         if(author == null || station == null)
             return Optional.empty();

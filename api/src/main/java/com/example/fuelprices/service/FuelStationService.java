@@ -1,5 +1,7 @@
 package com.example.fuelprices.service;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import com.example.fuelprices.dto.AddOrEditFuelStationDTO;
@@ -65,5 +67,24 @@ public class FuelStationService {
 
         return Optional.of(repository.save(fuelStation));
     } 
+
+    public List<FuelStation> findClosestStations(BigDecimal lat, BigDecimal lng, int quantity) {
+        return repository.findAll().stream()
+                            .sorted((s1,s2) -> {
+                                BigDecimal dist1 = BigDecimal.valueOf(
+                                    Math.sqrt(
+                                        Math.pow((s1.getLatitude().subtract(lat)).doubleValue(), 2.0)) +
+                                        Math.pow((s1.getLongitude().subtract(lng).doubleValue()), 2.0)
+                                    );
+                                BigDecimal dist2 = BigDecimal.valueOf(
+                                    Math.sqrt(
+                                        Math.pow((s2.getLatitude().subtract(lat)).doubleValue(), 2.0)) +
+                                        Math.pow((s2.getLongitude().subtract(lng).doubleValue()), 2.0)
+                                    );
+                                return dist1.compareTo(dist2);
+                            })
+                            .limit(quantity)
+                            .toList();
+    }
 
 }

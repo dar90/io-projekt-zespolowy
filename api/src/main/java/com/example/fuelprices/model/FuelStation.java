@@ -22,6 +22,8 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -55,9 +57,11 @@ public class FuelStation {
     @Enumerated(EnumType.STRING)
     private FuelStationBrand brand;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "station", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "fuelStation", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<FuelPrice> prices;
 

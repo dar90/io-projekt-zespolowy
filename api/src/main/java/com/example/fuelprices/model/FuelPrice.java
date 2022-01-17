@@ -19,6 +19,8 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,6 +44,7 @@ public class FuelPrice {
     @JoinColumn(name = "station_id", referencedColumnName = "id")
     private FuelStation fuelStation;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "fuelPrice", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Report> reports;
 
@@ -58,5 +61,9 @@ public class FuelPrice {
     @DecimalMax("9.99")
     @Digits(integer = 1, fraction = 2)
     private BigDecimal price;
+
+    public int getReportsQuantity() {
+        return reports.size();
+    }
 
 }

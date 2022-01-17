@@ -55,9 +55,11 @@ public class User implements UserDetails {
     @Transient
     private UserRole role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "author", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> comments;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "stationOwner", cascade = {CascadeType.PERSIST})
     private List<FuelStation> fuelStations;
 
